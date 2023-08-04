@@ -1,6 +1,5 @@
-
-import './App.css';
 import React, { useState } from 'react';
+import './App.css'; // Import the CSS file with the provided styles
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseItem from './components/ExpenseItem';
 
@@ -11,28 +10,32 @@ const App = () => {
     setTransactions((prevTransactions) => [transaction, ...prevTransactions]);
   };
 
-  const expenses = transactions.filter((transaction) => transaction.amount < 0);
-  const income = transactions.filter((transaction) => transaction.amount > 0);
+  const expenses = transactions.filter((transaction) => transaction.type === 'expense');
+  const income = transactions.filter((transaction) => transaction.type === 'income');
 
   return (
-    <div>
+    <div className="container">
       <h1>Expense Tracker</h1>
       <ExpenseForm onAddTransaction={addTransactionHandler} />
-
-      <h2>Transactions</h2>
-      <ul>
-        {transactions.map((transaction) => (
+      <h3>Expenses</h3>
+      <ul className="list">
+        {expenses.map((transaction) => (
           <ExpenseItem
             key={transaction.id}
             title={transaction.title}
             amount={transaction.amount}
+            type={transaction.type}
           />
         ))}
-        {income.map((incomeItem) => (
+      </ul>
+      <h3>Income</h3>
+      <ul className="list">
+        {income.map((transaction) => (
           <ExpenseItem
-            key={incomeItem.id}
-            title={incomeItem.title}
-            amount={incomeItem.amount}
+            key={transaction.id}
+            title={transaction.title}
+            amount={transaction.amount}
+            type={transaction.type}
           />
         ))}
       </ul>
@@ -41,4 +44,3 @@ const App = () => {
 };
 
 export default App;
-
